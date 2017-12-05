@@ -14,8 +14,11 @@ var currentWord;
 
 function row() {
     row.prototype.newRow = function () {
-        var buttonGroup = [document.createElement("input"), document.createElement("input"), document.createElement("input"), document.createElement("input"), document.createElement("input")
-        ];
+        var buttonGroup = [];
+        for (i = 0; i < buttonCount; i++) {
+            buttonGroup[i] = document.createElement("input");
+        }
+
         for (var i = 0; i < buttonCount; i++) {
             var k = i;
             buttonGroup[k].type = "text";
@@ -131,12 +134,12 @@ function checkPlace(Number) {
 function checkColors(Number) {
     for (var i = 0; i < 800; i++) {
         // if (i !== (Number)) {
-            if (answer[i] === document.getElementById("button" + Number + "_" + count).value && isRight[Number] === true) {
-                placesOther++;
-                answer[i] = "";
-                document.getElementById("button" + Number + "_" + count).setAttribute("style", "border-radius: 50%; background-Color: yellow;");
-            }
+        if (answer[i] === document.getElementById("button" + Number + "_" + count).value && isRight[Number] === true) {
+            placesOther++;
+            answer[i] = "";
+            document.getElementById("button" + Number + "_" + count).setAttribute("style", "border-radius: 50%; background-Color: yellow;");
         }
+    }
 
     // }
 }
@@ -145,4 +148,33 @@ function victory() {
     won = true;
     buttonActivate.disabled = true;
     alert("you won!");
+}
+
+container.onkeyup = function (e) {
+    var target = e.srcElement || e.target;
+    var maxLength = parseInt(target.attributes["maxlength"].value, 10);
+    var myLength = target.value.length;
+    if (myLength >= maxLength) {
+        var next = target;
+        while (next = next.nextElementSibling) {
+            if (next === null)
+                break;
+            if (next.tagName.toLowerCase() === "input") {
+                next.focus();
+                break;
+            }
+        }
+    }
+    // Move to previous field if empty (user pressed backspace)
+    else if (myLength === 0) {
+        var previous = target;
+        while (previous = previous.previousElementSibling) {
+            if (previous === null)
+                break;
+            if (previous.tagName.toLowerCase() === "input") {
+                previous.focus();
+                break;
+            }
+        }
+    }
 }
